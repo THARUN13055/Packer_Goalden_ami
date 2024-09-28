@@ -9,9 +9,9 @@ packer {
 
 source "amazon-ebs" "java-ubuntu" {
   ami_name               = "java-test_ami-{{timestamp}}"
-  source_ami             = "ami-0e86e20dae9224db8"
+  source_ami             = "ami-0522ab6e1ddcc7055"
   ami_description        = "ubuntu machine"
-  region                 = "us-east-1"
+  region                 = "ap-south-1"
   skip_region_validation = false
   tags = {
     created = "tharun"

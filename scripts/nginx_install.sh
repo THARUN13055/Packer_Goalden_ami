@@ -32,5 +32,5 @@ if diff "$old_file" "$new_file" >/dev/null; then
 else
   echo "Changes detected. Updating $old_file with contents of $new_file."
   cp "$new_file" "$old_file"
-  sudo nginx -t
+  # sudo nginx -t
 fi

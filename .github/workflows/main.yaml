@@ -1,0 +1,42 @@
+name: Packer
+on: workflow_dispatch
+
+env:
+  PRODUCT_VERSION: "latest"
+  AWS_DEFAULT_REGION: "ap-south-1"  
+
+jobs:
+  Packer_auto_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v4
+      
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: Packer setup
+        uses: hashicorp/setup-packer@main
+        id: setup
+        with:
+          version: ${{ env.PRODUCT_VERSION }}
+      
+      - name: Packer init
+        id: init
+        run: "packer init ./java-ami.pkr.hcl"
+      
+      - name: Packer fmt
+        id: fmt
+        run: "packer fmt ./java-ami.pkr.hcl"
+      
+      - name: Packer validate
+        id: validate
+        run: "packer validate ./java-ami.pkr.hcl"
+      
+      - name: Packer Build
+        id: build
+        run: "packer build ./java-ami.pkr.hcl"
